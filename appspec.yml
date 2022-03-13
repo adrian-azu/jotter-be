@@ -2,13 +2,14 @@ version: 0.0
 os: linux
 files:
   - source: .
-    destination: /home/ec2-user/jotter-api/
+    destination: \home\ec2-user\jotter-api\
+    overwrite: true
 hooks:
   AfterInstall:
-    - location: script/install_dependencies
+    - location: script\install_dependencies
       timeout: 100
       runas: root
   ApplicationStart:
-    - location: script/start_server
+    - location: script\start_server
       timeout: 100
       runas: root
