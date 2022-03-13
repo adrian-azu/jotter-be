@@ -1,8 +1,8 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-    destination: /tmp/
+  - source: .
+    destination: /home/ec2-user/jotter-api/
 hooks:
   AfterInstall:
     - location: script/install_dependencies
