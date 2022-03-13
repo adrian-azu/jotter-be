@@ -4,19 +4,35 @@ const mongoose = require('mongoose');
 const NotebookSchema = require('../schema/NotebookSchema');
 const ObjectId = mongoose.Types.ObjectId;
 class Notebook {
-  getUserNotebooks(id, search = '', sort = '', sortValue = Number) {
+  getUserNotebooks(id, search = '', sort = '', sortValue = -1) {
     search = search ?? {
       $regex: '*.*.',
     };
     sort = sort ?? { sort: sortValue };
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await NotebookSchema.find({
-          userId: ObjectId(id),
-          title: search,
-        })
-          .sort(sort)
-          .select({ title: 1, cover: 1 });
+        const res = await NotebookSchema.aggregate(
+          [
+            {
+              $match: {
+                $and: [
+                  {
+                    userId: ObjectId(id),
+                  },
+                  {
+                    title: {
+                      regex: `*.${search}*.`,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              $sort: { createdAt: -1 },
+            },
+          ]
+          // { images: { $slice: 1 } }
+        ).allowDiskUse(true);
         return resolve(res);
       } catch (error) {
         return reject(error);

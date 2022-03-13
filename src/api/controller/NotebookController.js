@@ -8,7 +8,8 @@ class NotebookController {
   async index(req, res) {
     try {
       const { _id } = req.user;
-      const result = await Notebook.getUserNotebooks(_id);
+      const { search, sort, sortValue } = req.query;
+      const result = await Notebook.getUserNotebooks(_id, search, sort, sortValue);
       if (_.isEmpty(result)) {
         return res.status(404).json({
           status: 'fail',

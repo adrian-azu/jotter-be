@@ -10,15 +10,28 @@ class Note {
     sort = sort ?? { sort: sortValue };
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await NotesModel.find(
-          {
-            notebookId: ObjectId(notebookId),
-            title: search,
-          },
-          { images: { $slice: 1 } }
-        )
-          .sort(sort)
-          .select({ title: 1, images: 1, createdAt: 1, updatedAt: 1 });
+        const res = await NotesModel.aggregate(
+          [
+            {
+              $match: {
+                $and: [
+                  {
+                    notebookId: ObjectId(notebookId),
+                  },
+                  {
+                    title: {
+                      regex: `*.${search}*.`,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              $sort: { createdAt: -1 },
+            },
+          ],
+          // { images: { $slice: 1 } }
+        ).allowDiskUse(true);
         return resolve(res);
       } catch (error) {
         return reject(error);

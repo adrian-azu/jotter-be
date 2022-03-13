@@ -2,12 +2,13 @@
 
 const Note = require('../model/Note');
 const { errorHandler, Socket } = require('../helper/handler');
-
+const _ = require('lodash');
 class NoteController {
   async index(req, res) {
     try {
       const { _id } = req.user;
-      const result = await Note.getUserNotes(_id);
+      const { search, sort, sortValue } = req.query;
+      const result = await Note.getUserNotes(_id, search, sort, sortValue);
       if (_.isEmpty(result)) {
         return res.status(404).json({
           status: 'fail',
@@ -61,7 +62,7 @@ class NoteController {
       const { title, content, images } = req.body;
       let result;
       Socket.on('update_note', async (data) => {
-        console.log('here')
+        console.log('here');
         const { id, title, content, images } = data;
         result = await Note.updateNotes(id, { title, content, images });
         Socket.emit('updated_note', result);

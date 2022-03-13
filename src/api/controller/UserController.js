@@ -1,7 +1,7 @@
 'use strict';
 const User = require('../model/User');
 const { errorHandler } = require('../helper/handler');
-
+const _ = require('lodash')
 class UserController {
   async register(req, res) {
     try {
@@ -29,7 +29,7 @@ class UserController {
       const { username, password } = req.body;
       const user = await User.getUserByUsername(username);
       if (!user) {
-        return res.status(404).json({ status: 'failed', data: result });
+        return res.status(404).json({ status: 'failed', data: user });
       }
       if (!user.isValidpassword(password)) {
         return res.status(404).json({ status: 'failed', data: 'Invalid credentials' });
