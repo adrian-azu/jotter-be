@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /tmp/
+cd /home/ec2-user/jotter-api/
 
 isExistApp = `pgrep httpd`
 if [[ -n  $isExistApp ]]; then
