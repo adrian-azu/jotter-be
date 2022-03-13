@@ -9,7 +9,7 @@
 # yum remove -y httpd
 
 pm2 delete all
-pm2 start index.js
+pm2 start ecosystem.config.js
 
 # forever stopall
 # forever start /home/ec2-user/jotter-api/index.js
