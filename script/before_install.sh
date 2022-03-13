@@ -11,7 +11,7 @@ sudo apt-get install nodejs -y
 
 # Install forever module 
 # https://www.npmjs.com/package/forever
-sudo npm install forever -g
+sudo npm install -g pm2
 
 # Clean working folder
 # sudo find /home/ubuntu/test -type f -delete

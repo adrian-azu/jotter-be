@@ -1,7 +1,7 @@
 'use strict';
 
 const server = require('./src/app');
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3000;
 const connectDB = require('./src/database/mongodb');
 
 connectDB();
