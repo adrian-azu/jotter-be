@@ -4,9 +4,6 @@ const NotesModel = require('../schema/NoteSchema');
 const ObjectId = mongoose.Types.ObjectId;
 class Note {
   getUserNotes(notebookId = '', search = '', sort = '', sortValue = Number) {
-    search = search ?? {
-      $regex: '*.*.',
-    };
     sort = sort ?? { sort: sortValue };
     return new Promise(async (resolve, reject) => {
       try {
@@ -20,7 +17,7 @@ class Note {
                   },
                   {
                     title: {
-                      regex: `*.${search}*.`,
+                      $regex: `*.${search||""}*.`,
                     },
                   },
                 ],

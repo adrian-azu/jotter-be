@@ -7,6 +7,7 @@ const { errorHandler } = require('../helper/handler');
 class NotebookController {
   async index(req, res) {
     try {
+      console.log("HERE")
       const { _id } = req.user;
       const { search, sort, sortValue } = req.query;
       const result = await Notebook.getUserNotebooks(_id, search, sort, sortValue);

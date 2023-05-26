@@ -5,9 +5,6 @@ const NotebookSchema = require('../schema/NotebookSchema');
 const ObjectId = mongoose.Types.ObjectId;
 class Notebook {
   getUserNotebooks(id, search = '', sort = '', sortValue = -1) {
-    search = search ?? {
-      $regex: '*.*.',
-    };
     sort = sort ?? { sort: sortValue };
     return new Promise(async (resolve, reject) => {
       try {
@@ -20,9 +17,13 @@ class Notebook {
                     userId: ObjectId(id),
                   },
                   {
-                    title: {
-                      regex: `*.${search}*.`,
-                    },
+                    $or: [
+                      {
+                        title: {
+                          $regex: `.*${search||""}.*`,
+                        },
+                      },
+                    ],
                   },
                 ],
               },
