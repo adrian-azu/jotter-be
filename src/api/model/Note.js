@@ -17,7 +17,7 @@ class Note {
                   },
                   {
                     title: {
-                      $regex: `*.${search||""}*.`,
+                      $regex: `.*${search||""}.*`,
                     },
                   },
                 ],

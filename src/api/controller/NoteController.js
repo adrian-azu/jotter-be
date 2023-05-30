@@ -7,8 +7,8 @@ class NoteController {
   async index(req, res) {
     try {
       const { _id } = req.user;
-      const { search, sort, sortValue } = req.query;
-      const result = await Note.getUserNotes(_id, search, sort, sortValue);
+      const { notebookID, search, sort, sortValue } = req.query;
+      const result = await Note.getUserNotes(notebookID, search, sort, sortValue);
       if (_.isEmpty(result)) {
         return res.status(404).json({
           status: 'fail',
