@@ -60,13 +60,13 @@ class NoteController {
     try {
       const { id } = req.params;
       const { title, content, images } = req.body;
-      let result;
-      Socket.on('update_note', async (data) => {
-        console.log('here');
-        const { id, title, content, images } = data;
-        result = await Note.updateNotes(id, { title, content, images });
-        Socket.emit('updated_note', result);
-      });
+      const result = await Note.updateNotes(id, { title, content, images });
+      // Socket.on('update_note', async (data) => {
+      //   console.log('here');
+      //   const { id, title, content, images } = data;
+       
+      //   Socket.emit('updated_note', result);
+      // });
       if (!result)
         return res.status(404).json({
           status: 'fail',
