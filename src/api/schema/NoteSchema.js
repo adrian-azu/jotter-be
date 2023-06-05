@@ -18,6 +18,15 @@ const NoteSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  background: {
+    type: String,
+    required: false
+  },
+  bookmarked: {
+    type: Boolean,
+    required: false,
+  }
+  ,
   images: [
     {
       name: {

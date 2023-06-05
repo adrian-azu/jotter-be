@@ -14,7 +14,7 @@ class NoteController {
           status: 'fail',
           data: result,
         });
-      }
+      } 
       return res.status(200).json({
         status: 'success',
         data: result,
@@ -44,9 +44,9 @@ class NoteController {
 
   async create(req, res) {
     try {
-      const { notebookId, title, content, images } = req.body;
+      const { notebookId, title, content, images, background, bookmarked } = req.body;
 
-      const result = await Note.createNotes({ notebookId, title, content, images });
+      const result = await Note.createNotes({ notebookId, title, content, images, background, bookmarked });
       return res.status(200).json({
         status: 'success',
         data: result,
@@ -59,8 +59,8 @@ class NoteController {
   async update(req, res) {
     try {
       const { id } = req.params;
-      const { title, content, images } = req.body;
-      const result = await Note.updateNotes(id, { title, content, images });
+      const { title, content, background, bookmarked } = req.body;
+      const result = await Note.updateNotes(id, { title, content, background, bookmarked });
       // Socket.on('update_note', async (data) => {
       //   console.log('here');
       //   const { id, title, content, images } = data;
