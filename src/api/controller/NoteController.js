@@ -59,8 +59,8 @@ class NoteController {
   async update(req, res) {
     try {
       const { id } = req.params;
-      const { title, content, background, bookmarked } = req.body;
-      const result = await Note.updateNotes(id, { title, content, background, bookmarked });
+      const { title, content, images, background, bookmarked } = req.body;
+      const result = await Note.updateNotes(id, { title, content, images, background, bookmarked });
       // Socket.on('update_note', async (data) => {
       //   console.log('here');
       //   const { id, title, content, images } = data;
