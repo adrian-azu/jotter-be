@@ -85,7 +85,7 @@ class NoteController {
   async delete(req, res) {
     try {
       const { id } = req.params;
-      const result = await Note.deleteNotebooks(id);
+      const result = await Note.deleteNote(id);
       if (!result)
         return res.status(404).json({
           status: 'fail',
