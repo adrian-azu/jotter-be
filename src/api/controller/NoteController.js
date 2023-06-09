@@ -7,8 +7,10 @@ class NoteController {
   async index(req, res) {
     try {
       const { _id } = req.user;
-      const { notebookID, search, sort, sortValue } = req.query;
-      const result = await Note.getUserNotes(notebookID, search, sort, sortValue);
+      const { notebookID, search, bookmarked, sort, sortValue } = req.query;
+      const isBookMarked = !_.isUndefined(bookmarked) ? JSON.parse(bookmarked) : null;
+      const result = await Note.getUserNotes(_id, notebookID, search, isBookMarked, sort, sortValue);
+      
       if (_.isEmpty(result)) {
         return res.status(404).json({
           status: 'fail',

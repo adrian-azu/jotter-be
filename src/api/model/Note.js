@@ -3,8 +3,11 @@ const mongoose = require('mongoose');
 const NotesModel = require('../schema/NoteSchema');
 const ObjectId = mongoose.Types.ObjectId;
 class Note {
-  getUserNotes(notebookId = '', search = '', sort = '', sortValue = Number) {
+  getUserNotes(userId, notebookId = '', search = '', bookmarked = null, sort = '', sortValue = 0) {
     sort = sort ?? { sort: sortValue };
+    bookmarked = typeof bookmarked !== 'boolean' ? {} : { bookmarked };
+    notebookId = notebookId ? { notebookId: ObjectId(notebookId) } : {}; 
+
     return new Promise(async (resolve, reject) => {
       try {
         const res = await NotesModel.aggregate(
@@ -13,13 +16,19 @@ class Note {
               $match: {
                 $and: [
                   {
-                    notebookId: ObjectId(notebookId),
+                    userId: ObjectId(userId),
                   },
                   {
-                    title: {
-                      $regex: `.*${search||""}.*`,
-                    },
+                    $or : [
+                      {
+                        title: {
+                          $regex: `.*${search||""}.*`,
+                        },
+                      },
+                    ]
                   },
+                  notebookId,
+                  bookmarked,
                 ],
               },
             },
@@ -39,6 +48,7 @@ class Note {
   createNotes(body = {}) {
     return new Promise(async (resolve, reject) => {
       try {
+        console.log('createNotes', body)
         const res = await NotesModel.create(body);
         return resolve(res);
       } catch (error) {
