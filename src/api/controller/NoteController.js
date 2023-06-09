@@ -44,9 +44,10 @@ class NoteController {
 
   async create(req, res) {
     try {
+      const { _id } = req.user;
       const { notebookId, title, content, images, background, bookmarked } = req.body;
 
-      const result = await Note.createNotes({ notebookId, title, content, images, background, bookmarked });
+      const result = await Note.createNotes({ userId: _id, notebookId, title, content, images, background, bookmarked });
       return res.status(200).json({
         status: 'success',
         data: result,

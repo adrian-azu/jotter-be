@@ -4,6 +4,11 @@ const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
 const NoteSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'users',
+    required: true,
+  },
   notebookId: {
     type: mongoose.Types.ObjectId,
     ref: 'notebooks',
@@ -25,8 +30,7 @@ const NoteSchema = new mongoose.Schema({
   bookmarked: {
     type: Boolean,
     required: false,
-  }
-  ,
+  },
   images: [
     {
       name: {
